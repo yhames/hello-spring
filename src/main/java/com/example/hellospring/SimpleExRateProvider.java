@@ -2,10 +2,10 @@ package com.example.hellospring;
 
 import java.math.BigDecimal;
 
-public class SimpleExRatePaymentService extends PaymentService {
+public class SimpleExRateProvider implements ExRateProvider {
 
     @Override
-    BigDecimal getExRate(String currency) {
+    public BigDecimal getExRate(String currency) {
         if (currency.equals("USD")) {
             return new BigDecimal("1100.00");
         }

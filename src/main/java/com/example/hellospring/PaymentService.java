@@ -11,32 +11,22 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
-public class PaymentService {
+public abstract class PaymentService {
 
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
-        // 환율 가져오기
-        URL url = new URL("https://open.er-api.com/v6/latest/" + currency);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String response = br.lines().collect(Collectors.joining());
-        br.close();
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        ExRateData data = objectMapper.readValue(response, ExRateData.class);
-        BigDecimal exRate = data.rates().get("KRW");
-
-        // 금액 계산
+        BigDecimal exRate = getExRate(currency);
         BigDecimal convertedAmount = foreignCurrencyAmount.multiply(exRate);
-
-        // 유효시간 계산
         LocalDateTime validUntil = LocalDateTime.now().plusMinutes(10);
 
         return new Payment(orderId, currency, foreignCurrencyAmount,
                 exRate, convertedAmount, validUntil);
     }
 
+    abstract BigDecimal getExRate(String currency) throws IOException;
+
     public static void main(String[] args) throws IOException {
-        PaymentService paymentService = new PaymentService();
+//        PaymentService paymentService = new WebApiExRatePaymentService();
+        PaymentService paymentService = new SimpleExRatePaymentService();
         Payment prepare = paymentService.prepare(1L, "USD", new BigDecimal("100.42"));
         System.out.println(prepare);
     }

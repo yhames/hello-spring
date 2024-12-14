@@ -20,10 +20,4 @@ public class PaymentService {
         return new Payment(orderId, currency, foreignCurrencyAmount,
                 exRate, convertedAmount, validUntil);
     }
-
-    public static void main(String[] args) throws IOException {
-        PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
-        Payment prepare = paymentService.prepare(1L, "USD", new BigDecimal("100.42"));
-        System.out.println(prepare);
-    }
 }

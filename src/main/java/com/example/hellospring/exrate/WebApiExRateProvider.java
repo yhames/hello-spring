@@ -1,5 +1,6 @@
 package com.example.hellospring.exrate;
 
+import com.example.hellospring.payment.ExRateProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 

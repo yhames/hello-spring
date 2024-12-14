@@ -1,5 +1,6 @@
 package com.example.hellospring.exrate;
 
+import com.example.hellospring.payment.ExRateProvider;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Component
-public class CachedExRateProvider implements ExRateProvider{
+public class CachedExRateProvider implements ExRateProvider {
 
     private final ExRateProvider target;
 

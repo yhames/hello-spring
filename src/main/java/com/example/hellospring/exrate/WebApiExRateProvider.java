@@ -1,4 +1,4 @@
-package com.example.hellospring;
+package com.example.hellospring.exrate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;

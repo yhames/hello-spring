@@ -1,5 +1,9 @@
 package com.example.hellospring;
 
+import com.example.hellospring.exrate.CachedExRateProvider;
+import com.example.hellospring.exrate.ExRateProvider;
+import com.example.hellospring.exrate.WebApiExRateProvider;
+import com.example.hellospring.payment.PaymentService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,7 +16,7 @@ public class ObjectFactory {
     }
 
     @Bean
-    public ExRateProvider exRateProvider() {
+    public WebApiExRateProvider exRateProvider() {
         return new WebApiExRateProvider();
     }
 

@@ -8,8 +8,8 @@ public class PaymentService {
 
     private final ExRateProvider exRateProvider;
 
-    public PaymentService() {
-        this.exRateProvider = new SimpleExRateProvider();
+    public PaymentService(ExRateProvider exRateProvider) {
+        this.exRateProvider = exRateProvider;
     }
 
     public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrencyAmount) throws IOException {
@@ -22,7 +22,7 @@ public class PaymentService {
     }
 
     public static void main(String[] args) throws IOException {
-        PaymentService paymentService = new PaymentService();
+        PaymentService paymentService = new PaymentService(new WebApiExRateProvider());
         Payment prepare = paymentService.prepare(1L, "USD", new BigDecimal("100.42"));
         System.out.println(prepare);
     }

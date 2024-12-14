@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Client {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        BeanFactory beanFactory = new AnnotationConfigApplicationContext(ObjectFactory.class);
+        BeanFactory beanFactory = new AnnotationConfigApplicationContext(PaymentConfig.class);
         PaymentService paymentService = beanFactory.getBean(PaymentService.class);
 
         Payment prepare = paymentService.prepare(1L, "USD", new BigDecimal("100.42"));

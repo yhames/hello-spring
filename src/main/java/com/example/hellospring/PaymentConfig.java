@@ -1,5 +1,8 @@
 package com.example.hellospring;
 
+import com.example.hellospring.api.ApiTemplate;
+import com.example.hellospring.api.ErApiExRateExtractor;
+import com.example.hellospring.api.SimpleApiExecutor;
 import com.example.hellospring.exrate.CachedExRateProvider;
 import com.example.hellospring.payment.ExRateProvider;
 import com.example.hellospring.exrate.WebApiExRateProvider;
@@ -19,7 +22,7 @@ public class PaymentConfig {
 
     @Bean
     public WebApiExRateProvider exRateProvider() {
-        return new WebApiExRateProvider();
+        return new WebApiExRateProvider(apiTemplate());
     }
 
     @Bean
@@ -30,5 +33,10 @@ public class PaymentConfig {
     @Bean
     public Clock clock() {
         return Clock.systemDefaultZone();
+    }
+
+    @Bean
+    public ApiTemplate apiTemplate() {
+        return new ApiTemplate(new SimpleApiExecutor(), new ErApiExRateExtractor());
     }
 }

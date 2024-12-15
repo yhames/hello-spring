@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.stream.Collectors;
 
 @Component
@@ -21,6 +20,7 @@ public class WebApiExRateProvider implements ExRateProvider {
     @Override
     public BigDecimal getExRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
+
         URI uri;
         try {
             uri = new URI(url);
@@ -28,24 +28,32 @@ public class WebApiExRateProvider implements ExRateProvider {
             throw new RuntimeException(e);
         }
 
-        HttpURLConnection connection;
         String response;
         try {
-            connection = (HttpURLConnection) uri.toURL().openConnection();
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
-                response = br.lines().collect(Collectors.joining());
-            }
+            response = executeApi(uri);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        ExRateData data;
         try {
-            data = objectMapper.readValue(response, ExRateData.class);
-            return data.rates().get("KRW");
+            return parseExRate(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private BigDecimal parseExRate(String response) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ExRateData data = objectMapper.readValue(response, ExRateData.class);
+        return data.rates().get("KRW");
+    }
+
+    private String executeApi(URI uri) throws IOException {
+        String response;
+        HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            response = br.lines().collect(Collectors.joining());
+        }
+        return response;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.hellospring;
 
+import com.example.hellospring.data.OrderRepository;
+import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
@@ -13,6 +15,11 @@ import javax.sql.DataSource;
 
 @Configuration
 public class DataConfig {
+
+    @Bean
+    public OrderRepository orderRepository(EntityManagerFactory emf) {
+        return new OrderRepository(emf);
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

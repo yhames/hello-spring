@@ -1,5 +1,6 @@
 package com.example.hellospring;
 
+import com.example.hellospring.data.OrderRepository;
 import com.example.hellospring.order.Order;
 import com.example.hellospring.payment.PaymentService;
 import jakarta.persistence.EntityManager;
@@ -12,18 +13,9 @@ import java.math.BigDecimal;
 public class DataClient {
     public static void main(String[] args) {
         BeanFactory beanFactory = new AnnotationConfigApplicationContext(DataConfig.class);
-        EntityManagerFactory emf = beanFactory.getBean(EntityManagerFactory.class);
-
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        Order order = new Order("100", BigDecimal.TEN);
-
+        OrderRepository repository = beanFactory.getBean(OrderRepository.class);
+        Order order = new Order("A0001", new BigDecimal("100.42"));
+        repository.save(order);
         System.out.println(order);
-        em.persist(order);
-        System.out.println(order);
-
-        em.close();
-        em.getTransaction().commit();
     }
 }

@@ -21,11 +21,6 @@ import javax.sql.DataSource;
 public class DataConfig {
 
     @Bean
-    public OrderRepository orderRepository() {
-        return new OrderRepository();
-    }
-
-    @Bean
     public BeanPostProcessor persistenceAnnotationBeanPostProcessor() {
         return new PersistenceAnnotationBeanPostProcessor();
     }

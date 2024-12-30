@@ -1,13 +1,9 @@
 package com.example.hellospring;
 
-import com.example.hellospring.data.OrderRepository;
 import com.example.hellospring.order.Order;
 import com.example.hellospring.order.OrderService;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
 

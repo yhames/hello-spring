@@ -3,7 +3,6 @@ package com.example.hellospring.order;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.math.BigDecimal;
 import java.util.List;
 

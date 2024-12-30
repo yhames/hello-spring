@@ -18,7 +18,7 @@ public class OrderServiceTxProxy implements OrderService {
 
     @Override
     public Order createOrder(String no, BigDecimal total) {
-        return target.createOrder(no, total);
+        return new TransactionTemplate(transactionManager).execute(status -> target.createOrder(no, total));
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.example.hellospring.order;
 
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,6 +17,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order createOrder(String no, BigDecimal total) {
         Order order = new Order(no, total);
         orderRepository.save(order);
@@ -22,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public List<Order> createOrders(List<OrderReq> reqs) {
         return reqs.stream()
                 .map(req -> createOrder(req.no(), req.total()))
